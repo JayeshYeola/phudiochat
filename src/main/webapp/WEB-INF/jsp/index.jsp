@@ -4,17 +4,20 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>File Upload</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<title>Phudio</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">	
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 	 	<a class="navbar-brand" href="#">
 	    	<img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/STEREO_EUV_Feb10_rotating.gif" width="30" height="30" alt="Icon Missing">
 	  	</a>
-	
+		<a class="navbar-brand" href="#">
+	    	Phudio Chat!
+	  	</a>
 	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
 	    <ul class="navbar-nav mr-auto">
+	      
 	      <li class="nav-item active">
 	        <a class="nav-link" href="#">Upload Image <span class="sr-only">(current)</span></a>
 	      </li>
@@ -29,15 +32,12 @@
 	<h3 align="center">	Select a Profile Photo to Upload</h3>
 	<br />
 	<form action="/upload" method="POST" enctype = "multipart/form-data">
-		<div class="input-group col-sm-6" align="center">
-		  <div class="custom-file">
-		    <input type="file" class="custom-file-input" id="inputGroupFile02" name="file">
-		    <label class="custom-file-label" for="inputGroupFile02">Choose file</label>
-		  </div>
-		  <div class="input-group-append">
-		    <input class="input-group-text" id="" type="submit" value="Upload">
-		  </div>
-		</div>
+		
+			<table align="center" style="padding: 5px;margin-left: 40%;border-width 1px; border-color: #A9A9A9;border-style: solid;">
+			<tr> <td align="center" style="border-width 1px; border-color: #A9A9A9;border-style: solid;padding: 3px"><big>Upload Profile Image</big></td> </tr>
+		  	<tr> <td style="padding: 3px"><input type="file" name="file"></td></tr>
+		  	<tr> <td style="padding: 3px"><input type="submit" value="Upload"></td></tr>
+		  	</table>
 	</form>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

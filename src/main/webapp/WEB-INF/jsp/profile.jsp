@@ -8,17 +8,20 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 	</head>
-	<body>	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<body>	
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 	 	<a class="navbar-brand" href="#">
 	    	<img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/STEREO_EUV_Feb10_rotating.gif" width="30" height="30" alt="Icon Missing">
 	  	</a>
-	
+		<a class="navbar-brand" href="#">
+	    	Phudio Chat!
+	  	</a>
 	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
 	    <ul class="navbar-nav mr-auto">
-	      <li class="nav-item active">
-	        <a class="nav-link" href="index">Upload Image </a>
-	      </li>
 	      <li class="nav-item">
+	        <a class="nav-link" href="#">Upload Image </a>
+	      </li>
+	      <li class="nav-item active">
 	        <a class="nav-link" href="#">Profile<span class="sr-only">(current)</span></a>
 	      </li>
 	    </ul>
@@ -38,7 +41,7 @@
 			    		<h5 class="card-title">Jayesh Yeola</h5>
 			    			<p class="card-text">
 			    				Course: Masters in Computer Science <br> 
-			    				Pickup Location: {{car.pickuplocation}} <br>	
+			    				Lab 2 Assignment - Profile Photo Upload <br>	
 			    			</p>
 			    	</div>
 			  	</div>
