@@ -37,8 +37,7 @@ public class ProfileController {
 		ModelAndView profilePage = new ModelAndView();
 
 		BasicAWSCredentials cred = new BasicAWSCredentials(
-				"AKIAJKQAIH7AA5YQXPBA", "fKESnlLk1W2qjlEjGXcqHJcoPDREEfpPrgvK54Dk"
-				);
+				access_key, private_key				);
 		
 		AmazonS3 s3client = AmazonS3ClientBuilder
 				.standard()
