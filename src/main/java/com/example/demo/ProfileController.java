@@ -45,7 +45,6 @@ public class ProfileController {
 		BasicAWSCredentials cred = new BasicAWSCredentials(
 				System.getenv("AWS_ACCESS"), System.getenv("AWS_PRIVATE")
 				);
-		
 		AmazonS3 s3client = AmazonS3ClientBuilder
 				.standard()
 				.withCredentials(new AWSStaticCredentialsProvider(cred))
