@@ -2,6 +2,9 @@ package com.example.demo;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +24,9 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 @Controller
 public class ProfileController {
 	
+	@Autowired
+	private UserRepository userRepo;
+	
 	@GetMapping(value="/")
 	public ModelAndView renderpage() {
 		
@@ -37,7 +43,7 @@ public class ProfileController {
 		ModelAndView profilePage = new ModelAndView();
 
 		BasicAWSCredentials cred = new BasicAWSCredentials(
-				"AKIAJKQAIH7AA5YQXPBA", "fKESnlLk1W2qjlEjGXcqHJcoPDREEfpPrgvK54Dk"
+				System.getenv("AWS_ACCESS"), System.getenv("AWS_PRIVATE")
 				);
 		
 		AmazonS3 s3client = AmazonS3ClientBuilder
@@ -71,4 +77,44 @@ public class ProfileController {
 		}		
 	}
 	
+	@GetMapping(value="/facebook")
+	public ModelAndView renderFaceBook() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("facebook_index");
+		return mv;
+	}
+	
+	@PostMapping(value="/facebookRedirect")
+	public ModelAndView getRedirect(
+		@RequestParam(name="myId") String MyId,
+		@RequestParam(name="myName") String MyName,
+		@RequestParam(name="myEmail") String MyEmail,
+		@RequestParam(name="myFriends") String MyFriends,
+		HttpServletRequest req
+		)
+	{
+		System.out.println(MyId+MyName+MyEmail+MyFriends);
+		return new ModelAndView("gethomepage/?email="+MyEmail);
+	}
+	
+	@GetMapping(value="/gethomepage")
+	public ModelAndView gethomepage(@RequestParam(name="email",required=true) String email) {
+		ModelAndView mv = new ModelAndView();
+		
+		try {
+		User u = userRepo.findByEmail(email);
+		mv.addObject("user",u);
+		mv.setViewName("homepage");
+		if(u == null)
+		{
+			throw new Exception("User is null");
+		}
+		}
+		catch(Exception e){
+			mv.addObject("Error","Usre Does not Exist");
+			mv.setViewName("usermissingerror");
+			e.printStackTrace();
+		}
+		return mv;
+	}
 }
