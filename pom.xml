@@ -74,6 +74,12 @@
     			<artifactId>mysql-connector-java</artifactId>
     			<scope>runtime</scope>
 		</dependency>
+		
+		<dependency>
+			<artifactId>spring-session-jdbc</artifactId>
+			<groupId>org.springframework.session</groupId>
+		</dependency>
+	
 	</dependencies>
 
 	<build>

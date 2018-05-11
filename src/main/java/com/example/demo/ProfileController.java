@@ -1,6 +1,11 @@
 package com.example.demo;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Base64;
+import java.util.Base64.Decoder;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -92,21 +97,22 @@ public class ProfileController {
 		HttpServletRequest req
 		)
 	{
-		System.out.println(MyId+MyName+MyEmail+MyFriends);
-		return new ModelAndView("gethomepage/?email="+MyEmail);
-	}
-	
-	@GetMapping(value="/gethomepage")
-	public ModelAndView gethomepage(@RequestParam(name="email",required=true) String email) {
 		ModelAndView mv = new ModelAndView();
-		
 		try {
-		User u = userRepo.findByEmail(email);
+			System.out.println("inside try"+MyEmail);
+		User u = userRepo.findByEmail(MyEmail);
 		mv.addObject("user",u);
 		mv.setViewName("homepage");
+		req.getSession().setAttribute("userId", MyId);
+		req.getSession().setAttribute("userName", MyName);
+		req.getSession().setAttribute("myEmail", MyEmail);
+		
 		if(u == null)
 		{
-			throw new Exception("User is null");
+			ModelAndView myview = new ModelAndView();
+			myview.setViewName("createprofile");
+			return myview;
+			// throw new Exception("User is null");
 		}
 		}
 		catch(Exception e){
@@ -116,4 +122,6 @@ public class ProfileController {
 		}
 		return mv;
 	}
+	
+	
 }

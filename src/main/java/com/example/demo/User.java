@@ -1,6 +1,8 @@
 package com.example.demo;
 
 import java.sql.Blob;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,11 +17,15 @@ public class User {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
+	private int fbid;
+	
 	private String name;
 	
 	private String description;
 	
 	private String profilepic;
+	
+	private String friend_ids;
 	
 	@Column(unique=true)
 	private String email;
@@ -64,5 +70,27 @@ public class User {
 		this.email = email;
 	}
 	
-	
+	public int getFbid() {
+		return fbid;
+	}
+
+	public void setFbid(int fbid) {
+		this.fbid = fbid;
+	}
+
+	public int[] getFriend_ids() {
+		String[] arr = friend_ids.split(",");
+		int[] numArr = new int[arr.length];
+		for(int i = 0; i < numArr.length; i++){
+		    numArr[i] = Integer.parseInt(arr[i]);
+		}
+		return numArr;
+	}
+
+	public void setFriend_ids(int[] friend_ids) {
+		Arrays.sort(friend_ids);
+        String ids = Arrays.toString(friend_ids);
+		this.friend_ids = ids;
+	}
+
 }
