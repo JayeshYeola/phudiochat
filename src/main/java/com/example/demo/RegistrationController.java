@@ -1,15 +1,10 @@
 package com.example.demo;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.request;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
-
 import java.io.IOException;
 import java.sql.Blob;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.catalina.connector.Request;
-import org.h2.util.New;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,7 +55,7 @@ public class RegistrationController {
 		user.setDescription(description);
 		System.out.println(System.getenv("AWS_ACCESS"));
 		BasicAWSCredentials cred = new BasicAWSCredentials(
-				System.getenv("AWS_ACCESS"), System.getenv("AWS_PRIVATE")
+				"AKIAJFZK7UK7MONPUPVQ", "fZrEADwF9gydlLhg1rImLS2iRtEw7b51GYTzm5B0"
 				);
 		
 		AmazonS3 s3client = AmazonS3ClientBuilder

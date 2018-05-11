@@ -21,7 +21,7 @@ public class UploadToS3 {
 		String FileURI;
 		
 		BasicAWSCredentials cred = new BasicAWSCredentials(
-				System.getenv("AWS_ACCESS"), System.getenv("AWS_PRIVATE")
+				"AKIAJFZK7UK7MONPUPVQ", "fZrEADwF9gydlLhg1rImLS2iRtEw7b51GYTzm5B0"
 				);
 		AmazonS3 s3client = AmazonS3ClientBuilder
 				.standard()

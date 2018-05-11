@@ -1,7 +1,5 @@
 package com.example.demo;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,7 +52,7 @@ public class ProfileController {
 		ModelAndView profilePage = new ModelAndView();
 
 		BasicAWSCredentials cred = new BasicAWSCredentials(
-				System.getenv("AWS_ACCESS"), System.getenv("AWS_PRIVATE")
+				"AKIAJFZK7UK7MONPUPVQ","fZrEADwF9gydlLhg1rImLS2iRtEw7b51GYTzm5B0" 
 				);
 		AmazonS3 s3client = AmazonS3ClientBuilder
 				.standard()
