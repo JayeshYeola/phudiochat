@@ -4,8 +4,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Post</title>
-
+  <title>Add Post</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <link href="https://vjs.zencdn.net/6.6.3/video-js.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/videojs-record/2.1.0/css/videojs.record.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
@@ -26,10 +27,60 @@
 
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<a class="navbar-brand" href="#">
+	   	<img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/STEREO_EUV_Feb10_rotating.gif" width="30" height="30" alt="Icon Missing">
+	</a>
+	<a class="navbar-brand" href="#">
+	   	Phudio Chat!
+	</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-<audio id="myAudio" class="video-js vjs-default-skin"></audio>
-<video id="myImage" class="video-js vjs-default-skin"></video>
-
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Homepage <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="./editprofile">Edit Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="./displayfriendlist">My Friends</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#"><b>Welcome ${user.name }${u.name }</b></a>
+      </li>
+ <!--      <li class="nav-item">
+        <a class="nav-link" href="./logout">Logout</a>
+      </li> -->
+      <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="false" onlogin="checkLoginState()"></div>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+<div class="container">
+  <div class="page-header">
+    <h1>Add Post</h1>      
+  </div>
+</div>
+<br />
+<div class="container">
+<div class="row">
+<label for="myAudio">Record Audio</label>
+<audio id="myAudio" class="video-js vjs-default-skin" style="widht: 25%;height: 200px;margin:auto;"></audio>
+<!-- </div>
+<br />
+<div class="row"> -->
+<label for="myAudio">Capture Image</label>
+<video id="myImage" class="video-js vjs-default-skin" style="widht: 25%;height: 200px;margin:auto;"></video>
+</div>
+</div>
+<br />
 <script>
 var player = videojs("myAudio", {
     controls: true,
@@ -125,16 +176,26 @@ imager.on('finishRecord', function() {
 
 $(document).ready(function(){
 	$("#saveButton").on("click",function(){
-		alert("called");
 		$("#audiofetchForm").submit();
 	});
 });
 </script>
-
-<form id="audiofetchform" method="POST" action="/audiostore">
+<br>
+<form id="audiofetchForm" method="POST" action="/audiostore" style="width: 50%;margin: auto;">
 	<input type="hidden" name="commentRecording" id="commentRecording" />
-	<input type="hidden" name="imageRecording" id="imageRecording" />
-	<button id="saveButton">Save</button> 
+	<input type="hidden" name="imageRecording" id="imageRecording" required="required"/>
+	<div class="form-group has-success">
+	  <label class="form-control-label" for="titlePost">Enter the Title</label>
+	  <input type="text" class="form-control form-control-success" name="titlePost" id="titlePost">
+	</div>
+	<div class="form-group has-success">
+	  <label class="form-control-label" for="annotePost">Enter the Annotation</label>
+	  <input type="text" class="form-control form-control-success" name="annotePost" id="annotePost">
+	</div>
+	<button id="saveButton" class="btn btn-primary">Save</button> 
 </form>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 </body>
 </html>

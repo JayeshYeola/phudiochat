@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostRepository extends CrudRepository<Post, Integer>{
 	public Post findById(int Id);
+	public List<Post> findByuserId(int userId);
 	public List<Post> findAll();
 }

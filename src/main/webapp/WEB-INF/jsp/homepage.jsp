@@ -94,17 +94,60 @@
     </form>
   </div>
 </nav>
-<div class="container">
-	<div class="row">
-	<image alt="Profile Photo" src="${user.profilepic }${u.profilepic}" width="10%" height="10%">
-	<c:out value="${user.name }" />
-	<c:out value="${u.name }" />
-	<c:out value="${user.email }${u.email }" />
-	<c:out value="${user.description }${u.description }" />
+		<div class="container">
+		<div class="row">
+			<div class="col-sm-4 my-auto">
+				<img class="card-img-top img-responsive" src="${user.profilepic }${u.profilepic}" alt="Card image cap" style="width: 100%">
+			</div>
+			<div class="col-sm-8">
+				<div class="card-body">
+  				<h5 class="card-title">
+  					<c:out value="${user.name }" />
+					<c:out value="${u.name }" />
+				</h5>
+  				<p class="card-text">
+  					Email: <c:out value="${user.email }${u.email }" /><br>
+  					Description: <c:out value="${user.description }${u.description }" /> <br>
+  				</p>
+				<button type="button" class="btn btn-primary" onclick="document.location.href='./audiorecord';">
+				  Add Post
+				</button>
+				</div>
+			</div>
+		</div>
+		</div>
+<!--  Show Post List -->
+	<br />	
+	
+	<div class="card w-50 rounded bg-light py-2 mb-2 ml-3" style="margin: auto;">
+	<div class="container">
+		<h2> My Posts</h2>
+		<c:forEach var="post" items="${posts }">
+		<div class="row">
+			<div class="col-sm-4 my-auto">
+				<img class="card-img-top img-responsive" src="${post.photo}" alt="Card image cap" style="width: 100%">
+			</div>
+			<div class="col-sm-8">
+				<div class="card-body">
+  				<h5 class="card-title">
+  					<c:out value="${post.title }" />
+				</h5>
+  				<p class="card-text">
+  					Annotation: <c:out value="${post.annotation }" /><br>
+  				</p>
+  				<form id="showp" name="showp" method="POST" action="/showPost" style="width: 50%;margin: auto;">
+	  				<input type="hidden" name="postId" value="${post.id }" >
+					<button type="submit" class="btn btn-primary" name="postbtn">
+					  View Post
+					</button>
+				</form>
+				</div>
+			</div>
+		</div>
+		</c:forEach>	
 	</div>
-
-</div>
-
+	</div>	
+	
 </body>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

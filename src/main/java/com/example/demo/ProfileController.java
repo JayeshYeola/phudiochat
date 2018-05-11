@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.annotations.Where;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +34,9 @@ public class ProfileController {
 	
 	@Autowired
 	private UserRepository userRepo;
+	
+	@Autowired
+	private PostRepository postRepo;
 	
 	@GetMapping(value="/")
 	public ModelAndView renderpage() {
@@ -183,6 +187,8 @@ public class ProfileController {
 			userRepo.save(u);
 			mv.addObject("u",u);
 			mv.setViewName("homepage");
+			List<Post> posts = postRepo.findByuserId(u.getId());
+			mv.addObject("posts",posts);
 			return mv;
 		}
 		}
