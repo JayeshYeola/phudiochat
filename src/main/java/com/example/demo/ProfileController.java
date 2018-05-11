@@ -4,8 +4,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -81,6 +83,25 @@ public class ProfileController {
 		}		
 	}
 	
+	@GetMapping(value="/displayfriendlist")
+	public ModelAndView showFriendList(HttpServletRequest req) {
+		String email = (String)req.getSession().getAttribute("myEmail");
+		System.out.println(email);
+		User u = userRepo.findByEmail(email);
+		String[] friendsId = u.getFriend_ids();
+		List<User> friends = new ArrayList<User>();
+		for (String frndId : friendsId) {
+			User temp = userRepo.findByFbid(frndId);
+			System.out.println("Friend is : "+temp.getName());
+			if(temp != null)
+				friends.add(temp);
+		}
+		ModelAndView mv = new ModelAndView("friendlist");
+		System.out.println(friends.size());
+		mv.addObject("friends", friends);
+		return mv;
+	}
+	
 	@GetMapping(value="/facebook")
 	public ModelAndView renderFaceBook() {
 		ModelAndView mv = new ModelAndView();
@@ -98,30 +119,78 @@ public class ProfileController {
 		)
 	{
 		ModelAndView mv = new ModelAndView();
-		try {
-			System.out.println("inside try"+MyEmail);
-		User u = userRepo.findByEmail(MyEmail);
-		mv.addObject("user",u);
 		mv.setViewName("homepage");
+		System.out.println("My Friends are : "+ MyFriends);
+		try {
+		User u = userRepo.findByEmail(MyEmail);
+		List<User> ulist = userRepo.findAll();
+		System.out.println("User List : ");
+		for(int i=0;i<ulist.size();i++)
+			System.out.println(ulist.get(i));
 		req.getSession().setAttribute("userId", MyId);
 		req.getSession().setAttribute("userName", MyName);
 		req.getSession().setAttribute("myEmail", MyEmail);
-		
 		if(u == null)
 		{
+			System.out.println("User is null");
 			ModelAndView myview = new ModelAndView();
+			User u3 = new User();
+			u3.setFbid(MyId);
+			u3.setEmail((String) req.getSession().getAttribute("myEmail"));
+			u3.setName((String) req.getSession().getAttribute("userName"));
+			if(!MyFriends.isEmpty()) {
+				String[] arr = MyFriends.split("/");
+				System.out.println("Spliting my Friends:"+arr.toString());
+			String[] friendlist = new String[arr.length];
+			for(int j = 0; j < arr.length; j++) {
+				System.out.println(arr[j]);
+				String[] friend = arr[j].split(",");
+				for(int k = 0; k < friend.length; k++) {
+					System.out.println("My Friend are: " +friend[k]);
+					friendlist[j] = friend[0];
+				}
+			}
+			
+				u3.setFriend_ids(friendlist);
+				userRepo.save(u3);
+			}
+//			System.out.println(u3.getName());
+//			System.out.println(u3.getEmail());
+			
+			myview.addObject("u3",u3);
 			myview.setViewName("createprofile");
 			return myview;
 			// throw new Exception("User is null");
 		}
+		else {
+			System.out.println("Inside Else");
+			if(!MyFriends.isEmpty()) {
+				String[] arr = MyFriends.split("/");
+				System.out.println("Spliting my Friends:"+arr.toString());
+			String[] friendlist = new String[arr.length];
+			for(int j = 0; j < arr.length; j++) {
+				System.out.println(arr[j]);
+				String[] friend = arr[j].split(",");
+				for(int k = 0; k < friend.length; k++) {
+					System.out.println("My Friend are: " +friend[k]);
+					friendlist[j] = friend[0];
+				}
+			}
+				u.setFriend_ids(friendlist);
+				System.out.println(MyId);
+				u.setFbid(MyId);
+			}
+			userRepo.save(u);
+			mv.addObject("u",u);
+			mv.setViewName("homepage");
+			return mv;
+		}
 		}
 		catch(Exception e){
-			mv.addObject("Error","Usre Does not Exist");
+			mv.addObject("Error","User Does not Exist");
 			mv.setViewName("usermissingerror");
 			e.printStackTrace();
 		}
 		return mv;
 	}
-	
-	
 }

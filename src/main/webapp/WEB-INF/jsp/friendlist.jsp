@@ -1,63 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Homepage</title>
+<script src="//cdnjs.cloudflare.com/ajax/libs/holder/2.6.0/holder.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<title>My Friend List</title>
 </head>
 <body>
-<script>
-  function statusChangeCallback(response) {
-    console.log('statusChangeCallback');
-    console.log(response); 
-    if (response.status === 'connected') {
-           // location.reload()
-      testAPI();
-    } else {
-    window.location.href = "./facebook";
-     conlose.log("Please log into this app.");
-    }
-  }
-  function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
-    });
-  }
-
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '179260946059218',
-      cookie     : true,  // enable cookies to allow the server to access 
-                          // the session
-      xfbml      : true,  // parse social plugins on this page
-      version    : 'v2.8' // use graph api version 2.8
-    });
-    
-    FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
-    });
-  };
-
-  // Load the SDK asynchronously
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "https://connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-  function testAPI() {
-    FB.api('/me?fields=id,name,email', function(response) {
-      //console.log('Successful login for: ' + response.name);
-      console.log(response);
-      });
-  }
-</script>
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 	<a class="navbar-brand" href="#">
 	   	<img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/STEREO_EUV_Feb10_rotating.gif" width="30" height="30" alt="Icon Missing">
@@ -72,13 +25,13 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Homepage <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="#">Homepage</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="./editprofile">Edit Profile</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="./displayfriendlist">My Friends</a>
+        <a class="nav-link" href="./displayfriendlist">My Friends <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link disabled" href="#"><b>Welcome ${user.name }${u.name }</b></a>
@@ -94,20 +47,28 @@
     </form>
   </div>
 </nav>
-<div class="container">
-	<div class="row">
-	<image alt="Profile Photo" src="${user.profilepic }${u.profilepic}" width="10%" height="10%">
-	<c:out value="${user.name }" />
-	<c:out value="${u.name }" />
-	<c:out value="${user.email }${u.email }" />
-	<c:out value="${user.description }${u.description }" />
-	</div>
-
-</div>
-
-</body>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<br/>
+	<table class="table table-hover border" style="width:50%;float:centre;">
+  <thead>
+    <tr>
+      <th scope="col">Profile Picture</th>
+      <th scope="col">Name</th>
+      <th scope="col">View Profile</th>
+    </tr>
+  </thead>
+  <tbody>
+	<c:forEach var="frnd" items="${friends }">
+        <tr>
+        	<td><Image src="${frnd.profilepic }" width="100" height="50">
+            <td>${frnd.name}</td>
+        	<td>${frnd.id }</td>
+        </tr>
+    </c:forEach>
+  </tbody>
+</table>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+</body>
 </html>

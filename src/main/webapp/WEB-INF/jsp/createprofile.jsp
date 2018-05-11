@@ -28,19 +28,19 @@
 	    </ul>
 	  </div>
 </nav>	
-<h2 align="center">	Welcome to Phudio Chat </h2>	
+<h2 align="center">	Welcome to Phudio Chat</h2>	
 <br />
 <div class="container">
 	<div class="row">
 		<form action="user/add" method="post" enctype = "multipart/form-data">
 			<div class="form-group">
-				<label for="exampleInputEmail1">Email address</label>
-			   	<input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+				<label for="exampleInputEmail1">Email address</label> 
+			   	<input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" value="${u3.email}">
 			   	<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
 			</div>
 			<div class="form-group">
 			   	<label for="text1">Name</label>
-			   	<input type="text" name="name" class="form-control" id="text1" placeholder="Enter Name">
+			   	<input type="text" name="name" class="form-control" id="text1" placeholder="Enter Name" value="${u3.name}">
 			</div>
 			<div class="form-group">
 			   	<label for="text2">Description</label>

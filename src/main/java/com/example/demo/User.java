@@ -17,7 +17,7 @@ public class User {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
-	private int fbid;
+	private String fbid;
 	
 	private String name;
 	
@@ -70,27 +70,26 @@ public class User {
 		this.email = email;
 	}
 	
-	public int getFbid() {
+	public String getFbid() {
 		return fbid;
 	}
 
-	public void setFbid(int fbid) {
+	public void setFbid(String fbid) {
 		this.fbid = fbid;
 	}
 
-	public int[] getFriend_ids() {
+	public String[] getFriend_ids() {
 		String[] arr = friend_ids.split(",");
-		int[] numArr = new int[arr.length];
+		String[] numArr = new String[arr.length];
 		for(int i = 0; i < numArr.length; i++){
-		    numArr[i] = Integer.parseInt(arr[i]);
+		    numArr[i] = arr[i];
 		}
 		return numArr;
 	}
 
-	public void setFriend_ids(int[] friend_ids) {
-		Arrays.sort(friend_ids);
-        String ids = Arrays.toString(friend_ids);
-		this.friend_ids = ids;
+	public void setFriend_ids(String[] friend_ids) {
+        String models = String.join(",", friend_ids);
+		this.friend_ids = models;
 	}
 
 }

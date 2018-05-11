@@ -1,8 +1,15 @@
 package com.example.demo;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.request;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
 import java.io.IOException;
 import java.sql.Blob;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.catalina.connector.Request;
+import org.h2.util.New;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,11 +34,15 @@ public class RegistrationController {
 	private UserRepository userRepo;
 	
 	@GetMapping(value="/createprofile")
-	public ModelAndView renderpage() {
-		
-		ModelAndView createProfilePage = new ModelAndView();
-		
+	public ModelAndView renderpage(HttpServletRequest req) {
+		System.out.println("inside Create Profile");
+		ModelAndView createProfilePage = new ModelAndView();		
 		createProfilePage.setViewName("createprofile");
+		User u = new User();
+		u.setEmail((String) req.getSession().getAttribute("myEmail"));
+		u.setName((String) req.getSession().getAttribute("userName"));
+		
+		createProfilePage.addObject(u);
 		return createProfilePage;
 	}
 	
@@ -40,12 +51,13 @@ public class RegistrationController {
 			@RequestParam(name="name",required=true) String name,
 			@RequestParam String email,
 			@RequestParam String description,
-			@RequestParam("profilepic") MultipartFile image
+			@RequestParam("profilepic") MultipartFile image,
+			HttpServletRequest req
 			) {
-		User u = new User();
-		u.setName(name);
-		u.setEmail(email);
-		u.setDescription(description);
+		User user = userRepo.findByEmail(email);
+//		u.setName(name);
+//		u.setEmail(email);
+		user.setDescription(description);
 		System.out.println(System.getenv("AWS_ACCESS"));
 		BasicAWSCredentials cred = new BasicAWSCredentials(
 				System.getenv("AWS_ACCESS"), System.getenv("AWS_PRIVATE")
@@ -63,16 +75,20 @@ public class RegistrationController {
 			
 			s3client.putObject(putReq);
 			
-			String profileimage = "http://"+ "sefileupload" + ".s3.amazonaws.com/" + image.getOriginalFilename();
+		String profileimage = "http://"+ "sefileupload" + ".s3.amazonaws.com/" + image.getOriginalFilename();
 		
-		u.setProfilepic(profileimage);
-		userRepo.save(u);
-		return new ModelAndView("index");
+		user.setProfilepic(profileimage);
+		System.out.println(user.getProfilepic());
+		System.out.println(user.getName());
+		userRepo.save(user);
+		ModelAndView mv = new ModelAndView("homepage");
+		mv.addObject("user",user);
+		return mv;
 		}
 		catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return new ModelAndView("index");
+			return new ModelAndView("homepage");
 		}
 	}
 }
