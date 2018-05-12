@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -36,12 +38,24 @@ public class ProfileController {
 	@Autowired
 	private PostRepository postRepo;
 	
+	@Autowired
+	private CommentRepository comRepo;
+	
 	@GetMapping(value="/")
 	public ModelAndView renderpage() {
 		
 		ModelAndView indexPage = new ModelAndView();
 		
 		indexPage.setViewName("index");
+		return indexPage;
+	}
+	
+	@GetMapping(value="/error")
+	public ModelAndView showErrorPage() {
+		
+		ModelAndView indexPage = new ModelAndView();
+		
+		indexPage.setViewName("error");
 		return indexPage;
 	}
 	
@@ -90,17 +104,43 @@ public class ProfileController {
 		String email = (String)req.getSession().getAttribute("myEmail");
 		System.out.println(email);
 		User u = userRepo.findByEmail(email);
+		
 		String[] friendsId = u.getFriend_ids();
+		if( friendsId != null) {
+		System.out.println("Inside Display Friends"+u.getName()+"count : "+friendsId.length);
 		List<User> friends = new ArrayList<User>();
 		for (String frndId : friendsId) {
 			User temp = userRepo.findByFbid(frndId);
-			System.out.println("Friend is : "+temp.getName());
 			if(temp != null)
 				friends.add(temp);
 		}
 		ModelAndView mv = new ModelAndView("friendlist");
 		System.out.println(friends.size());
 		mv.addObject("friends", friends);
+		return mv;
+		}
+		else {
+			ModelAndView mv = new ModelAndView("friendlist");
+			return mv;
+			
+		}
+			
+	}
+	
+	@RequestMapping(value="/showProfile")
+	public ModelAndView showFriendList(
+			@RequestParam("friendId") int friendId,
+			HttpServletRequest req) {
+		System.out.println("Inside Show Profile");
+		ModelAndView mv = new ModelAndView("showprofile");
+		User u = userRepo.findById(friendId);
+		if(u != null)
+		{
+			System.out.println(u.getName());
+		}
+		mv.addObject("u",u);
+		List<Post> posts = postRepo.findByuserId(friendId);
+		mv.addObject("posts", posts);
 		return mv;
 	}
 	
@@ -138,8 +178,9 @@ public class ProfileController {
 			ModelAndView myview = new ModelAndView();
 			User u3 = new User();
 			u3.setFbid(MyId);
-			u3.setEmail((String) req.getSession().getAttribute("myEmail"));
+			u3.setEmail(MyEmail);
 			u3.setName((String) req.getSession().getAttribute("userName"));
+			System.out.println("u3:"+u3.getEmail());
 			if(!MyFriends.isEmpty()) {
 				String[] arr = MyFriends.split("/");
 				System.out.println("Spliting my Friends:"+arr.toString());
@@ -152,7 +193,6 @@ public class ProfileController {
 					friendlist[j] = friend[0];
 				}
 			}
-			
 				u3.setFriend_ids(friendlist);
 				userRepo.save(u3);
 			}

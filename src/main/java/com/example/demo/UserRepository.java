@@ -10,6 +10,7 @@ public interface UserRepository extends CrudRepository<User, Integer>{
 	
 	public User findByEmail(String email);
 	public User findByFbid(String fbid);
+	public User findById(int id);
 	public List<User> findAll();
 
 }

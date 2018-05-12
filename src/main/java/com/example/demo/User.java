@@ -79,12 +79,16 @@ public class User {
 	}
 
 	public String[] getFriend_ids() {
+		if(friend_ids != null) {
 		String[] arr = friend_ids.split(",");
 		String[] numArr = new String[arr.length];
 		for(int i = 0; i < numArr.length; i++){
 		    numArr[i] = arr[i];
 		}
 		return numArr;
+		}
+		else
+			return null;
 	}
 
 	public void setFriend_ids(String[] friend_ids) {

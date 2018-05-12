@@ -5,10 +5,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<script src="//cdnjs.cloudflare.com/ajax/libs/holder/2.6.0/holder.js"></script>
+<title>Profile</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<title>My Friend List</title>
 </head>
 <body>
 <script>
@@ -94,28 +93,60 @@
     </form>
   </div>
 </nav>
-	<br/>
-	<table class="table table-hover border" style="width:50%;float:centre;">
-  <thead>
-    <tr>
-      <th scope="col">Profile Picture</th>
-      <th scope="col">Name</th>
-      <th scope="col">View Profile</th>
-    </tr>
-  </thead>
-  <tbody>
-	<c:forEach var="frnd" items="${friends }">
-        <tr>
-        	<td><Image src="${frnd.profilepic }" width="100" height="50">
-            <td>${frnd.name}</td>
-        	<td><a class="btn btn-standard" href="./showProfile?friendId=${frnd.id}"> View Profile</a></td>
-        </tr>
-    </c:forEach>
-  </tbody>
-</table>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+		<div class="container" style="width: 50%;margin: auto;">
+		<div class="row">
+			<div class="col-sm-4 my-auto">
+				<img class="card-img-top img-responsive" src="${user.profilepic }${u.profilepic}" alt="Profile Pic" style="width: 100%">
+			</div>
+			<div class="col-sm-8">
+				<div class="card-body">
+  				<h5 class="card-title">
+  					<c:out value="${user.name }" />
+					<c:out value="${u.name }" />
+				</h5>
+  				<p class="card-text">
+  					Email: <c:out value="${user.email }${u.email }" /><br>
+  					Description: <c:out value="${user.description }${u.description }" /> <br>
+  				</p>
+				</div>
+			</div>
+		</div>
+		</div>
+<!--  Show Post List -->
+	<br />	
+	
+	<div class="card w-50 rounded bg-light py-2 mb-2 ml-3" style="margin: auto;">
+	<div class="container">
+		<h2> User Posts</h2>
+		<c:forEach var="post" items="${posts }">
+		<div class="row">
+			<div class="col-sm-4 my-auto">
+				<img class="card-img-top img-responsive" src="${post.photo}" alt="Card image cap" style="width: 100%">
+			</div>
+			<div class="col-sm-8">
+				<div class="card-body">
+  				<h5 class="card-title">
+  					<c:out value="${post.title }" />
+				</h5>
+  				<p class="card-text">
+  					Annotation: <c:out value="${post.annotation }" /><br>
+  				</p>
+  				<form id="showp" name="showp" method="POST" action="/showPost" style="width: 50%;margin: auto;">
+	  				<input type="hidden" name="postId" value="${post.id }" >
+					<button type="submit" class="btn btn-primary" name="postbtn">
+					  View Post
+					</button>
+				</form>
+				</div>
+			</div>
+		</div>
+		</c:forEach>	
+	</div>
+	</div>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-</html>
 </body>
+</html>

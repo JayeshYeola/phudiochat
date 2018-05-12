@@ -2,8 +2,10 @@ package com.example.demo;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.sql.Date;
 import java.util.Base64;
 import java.util.Base64.Decoder;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,6 +29,9 @@ public class PostController {
 	@Autowired
 	private UserRepository userRepo;
 	
+	@Autowired
+	private CommentRepository comRepo;
+	
 	@GetMapping(value="/audiorecord")
 	public ModelAndView audiorecord() {
 		
@@ -47,6 +52,31 @@ public class PostController {
 		ModelAndView mv = new ModelAndView("displayPost");
 		mv.addObject("p",p);
 		
+		Comment com = new Comment();
+		List<Comment> comments = comRepo.findByPostid(postId);
+		mv.addObject("comments", comments);
+		return mv;
+	}
+	
+	@PostMapping(value="/addcomment")
+	public ModelAndView saveComment(
+			@RequestParam("postId") int postId,
+			@RequestParam("commentorId") int commentorId,
+			@RequestParam("commentText") String commentText,
+			HttpServletRequest req
+			) {
+		System.out.println("Inside Add Comment");
+		Comment c= new Comment();
+		c.setCommentor(commentorId);
+		c.setPostid(postId);
+		c.setText(commentText);
+		comRepo.save(c);
+		ModelAndView mv = new ModelAndView("displayPost");
+		List<Comment> comments = comRepo.findByPostid(postId);
+		Post p = postRepo.findById(postId);
+		System.out.println(p.getPhoto());
+		mv.addObject("p",p);
+		mv.addObject("comments",comments);
 		return mv;
 	}
 	
@@ -104,6 +134,7 @@ public class PostController {
 		p.setUser(u.getId());
 		p.setAnnotation(annotePost);
 		p.setTitle(titlePost);
+		System.out.println("Save Post");
 		postRepo.save(p);
 		System.out.println("Post Added Successfully");
 		ModelAndView mv = new ModelAndView("facebook_index");

@@ -15,14 +15,20 @@ public class Comment {
 	
 	private int commentor_id;
 	
-	private int post_id;
+	private int postid;
 	
 	private String text;
-	
-	private DateTime commentTime;
 
 	public int getId() {
 		return id;
+	}
+
+	public int getCommentor_id() {
+		return commentor_id;
+	}
+
+	public void setCommentor_id(int commentor_id) {
+		this.commentor_id = commentor_id;
 	}
 
 	public void setId(int id) {
@@ -37,12 +43,12 @@ public class Comment {
 		this.commentor_id = commentor_id;
 	}
 
-	public int getPost() {
-		return post_id;
+	public int getPostid() {
+		return postid;
 	}
 
-	public void setPost(int post_id) {
-		this.post_id = post_id;
+	public void setPostid(int postid) {
+		this.postid = postid;
 	}
 
 	public String getText() {
@@ -52,14 +58,4 @@ public class Comment {
 	public void setText(String text) {
 		this.text = text;
 	}
-
-	public DateTime getCommentTime() {
-		return commentTime;
-	}
-
-	public void setCommentTime(DateTime commentTime) {
-		this.commentTime = commentTime;
-	}
-	
-	
 }

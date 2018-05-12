@@ -36,22 +36,23 @@ public class RegistrationController {
 		User u = new User();
 		u.setEmail((String) req.getSession().getAttribute("myEmail"));
 		u.setName((String) req.getSession().getAttribute("userName"));
-		
-		createProfilePage.addObject(u);
+		createProfilePage.addObject("u",u);
 		return createProfilePage;
 	}
 	
-	@PostMapping(value="/user/add")
+	@PostMapping(value="/adduser")
 	public ModelAndView addUser(
 			@RequestParam(name="name",required=true) String name,
-			@RequestParam String email,
-			@RequestParam String description,
+			@RequestParam(name="email") String email,
+			@RequestParam(name="description") String description,
 			@RequestParam("profilepic") MultipartFile image,
 			HttpServletRequest req
 			) {
+		System.out.println("Email in add user:"+email);
 		User user = userRepo.findByEmail(email);
 //		u.setName(name);
 //		u.setEmail(email);
+		System.out.println(email);
 		user.setDescription(description);
 		System.out.println(System.getenv("AWS_ACCESS"));
 		BasicAWSCredentials cred = new BasicAWSCredentials(
